@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Admin Memo | E4syCTF</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=JetBrains+Mono&display=swap" rel="stylesheet">
+<link rel="icon" type="image/png" href="E4syCTF-logo.ico">
+<style>
+  :root { --bg: #0b0f14; --card: #0f1720; --text: #e6eef6; --muted: #9aa6b2; --accent: #60A5FA; --border-color: rgba(255,255,255,0.05); }
+  body { font-family: "Inter", sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 24px; }
+  .container { max-width: 800px; margin: 0 auto; }
+  .card { background: var(--card); border-radius: 12px; padding: 24px; border: 1px solid var(--border-color); margin-bottom: 16px; }
+  h1 { margin: 0 0 16px 0; font-size: 24px; }
+  h2 { margin: 16px 0 8px 0; border-bottom: 1px solid var(--border-color); padding-bottom: 8px; }
+  .form-group { margin-bottom: 12px; }
+  label { display: block; margin-bottom: 6px; color: var(--muted); font-size: 14px; }
+  textarea { width: 100%; box-sizing: border-box; background: var(--bg); border: 1px solid var(--border-color); color: var(--text); border-radius: 8px; padding: 10px; min-height: 100px; font-family: "JetBrains Mono", monospace; }
+  .btn { padding: 10px 16px; border-radius: 8px; border: none; background: var(--accent); color: #fff; font-weight: 600; cursor: pointer; }
+  .memo-list .item { border: 1px solid var(--border-color); padding: 12px; margin-bottom: 10px; border-radius: 8px; background: rgba(255,255,255,0.02); }
+  .memo-list .author { font-weight: 600; color: var(--accent); }
+  .memo-list .content { margin-top: 8px; word-wrap: break-word; } 
+  .small { font-size: 13px; color: var(--muted); }
+</style>
+</head>
+<body>
+  <div class="container">
+    <div class="card">
+      <h1>管理者用メモ</h1>
+      <p class="small">このページは管理者専用です。残したメモは自動巡回Botも閲覧します。</p>
+    </div>
+
+    <div class="card">
+      <h2>新しいメモを投稿</h2>
+      <form id="memoForm">
+        <div class="form-group">
+          <label for="content">メモ内容</label>
+          <textarea id="content" name="content" required></textarea>
+        </div>
+        <button type="submit" class="btn">投稿する</button>
+      </form>
+    </div>
+
+    <div class="card">
+      <h2>メモ一覧</h2>
+      <div id="memo-list" class="memo-list">
+        <p class="small">読み込み中...</p>
+      </div>
+    </div>
+  </div>
+
+<script>
+  const memoForm = document.getElementById('memoForm');
+  const memoList = document.getElementById('memo-list');
+
+  async function loadMemos() {
+    try {
+      const res = await fetch('/submissions');
+      const data = await res.json();
+      if (!data.length) {
+        memoList.innerHTML = '<p class="small">メモはまだありません。</p>';
+        return;
+      }
+      memoList.innerHTML = data.map(memo => `
+        <div class="item">
+          <div class="author">${escapeHtml(memo.author)}</div>
+          <div class="content">${memo.content}</div> 
+          </div>
+      `).join('');
+    } catch (e) {
+      memoList.innerHTML = '<p class="small">メモの読み込みに失敗しました。</p>';
+    }
+  }
+
+  function escapeHtml(s) {
+    return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  }
+
+  memoForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const content = e.target.content.value;
+    
+    await fetch('/post', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ author: 'admin', content: content })
+    });
+
+    e.target.content.value = '';
+    loadMemos();
+  });
+
+  loadMemos();
+</script>
+</body>
+</html>

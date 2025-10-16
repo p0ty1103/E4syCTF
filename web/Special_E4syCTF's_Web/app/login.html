@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Admin Login Page</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      /* --- ダークモードの配色 --- */
+      --bg: #0b0f14;
+      --card: #0f1720;
+      --text: #e6eef6;
+      --muted: #9aa6b2;
+      --accent1: #6EE7B7;
+      --accent2: #60A5FA;
+      --glass: rgba(255, 255, 255, 0.03);
+      --border-color: rgba(255, 255, 255, 0.1);
+      --shadow-color: rgba(2, 6, 23, 0.6);
+      --btn-text: #041025;
+      --ui: "Inter", system-ui, -apple-system, sans-serif;
+    }
+
+    /* --- ライトモードの配色 --- */
+    body.light-mode {
+      --bg: #f0f4f8;
+      --card: #ffffff;
+      --text: #1e293b;
+      --muted: #64748b;
+      --accent1: #10b981;
+      --accent2: #3b82f6;
+      --glass: rgba(0, 0, 0, 0.03);
+      --border-color: #cbd5e1;
+      --shadow-color: rgba(100, 116, 139, 0.2);
+      --btn-text: #ffffff;
+    }
+
+    body {
+      font-family: var(--ui);
+      background: var(--bg);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      color: var(--text);
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    .login-container {
+      background: var(--card);
+      padding: 30px 40px;
+      border-radius: 14px;
+      box-shadow: 0 6px 20px var(--shadow-color);
+      border: 1px solid var(--border-color);
+      width: 340px;
+      box-sizing: border-box;
+    }
+
+    h2 {
+      margin: 0 0 24px 0;
+      text-align: center;
+      color: var(--text);
+      font-weight: 700;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 600;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    input[type="text"],
+    input[type="password"] {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 20px;
+      border: 1px solid var(--border-color);
+      background-color: var(--bg);
+      color: var(--text);
+      border-radius: 10px;
+      font-size: 16px;
+      transition: border-color 0.3s, box-shadow 0.3s;
+      box-sizing: border-box;
+      font-family: var(--ui);
+    }
+
+    input[type="text"]::placeholder,
+    input[type="password"]::placeholder {
+      color: var(--muted);
+      opacity: 0.7;
+    }
+    
+    input[type="text"]:focus,
+    input[type="password"]:focus {
+      border-color: var(--accent2);
+      outline: none;
+      box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent2) 20%, transparent);
+    }
+
+    button {
+      width: 100%;
+      padding: 12px 0;
+      background: linear-gradient(90deg, var(--accent2), var(--accent1));
+      border: none;
+      border-radius: 10px;
+      color: var(--btn-text);
+      font-size: 17px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: opacity 0.3s, box-shadow 0.3s;
+      font-family: var(--ui);
+      box-shadow: 0 4px 12px color-mix(in srgb, var(--accent1) 30%, transparent);
+    }
+
+    button:hover {
+      opacity: 0.9;
+    }
+
+    .forgot-password {
+      text-align: right;
+      margin-top: -12px;
+      margin-bottom: 24px;
+      font-size: 14px;
+    }
+
+    .forgot-password a {
+      color: var(--accent2);
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .forgot-password a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="login-container">
+    <h2>login(Admin Only)</h2>
+    <form action="/login" method="POST">
+      <label for="username">username</label>
+      <input type="text" id="username" name="username" placeholder="input username" required />
+      
+      <label for="password">Password</label>
+      <input type="password" id="password" name="password" placeholder="input password" required />
+      
+      <div class="forgot-password">
+        <!-- <a href="#">Forgot Password</a> -->
+      </div>
+      
+      <button type="submit">login</button>
+    </form>
+  </div>
+</body>
+</html>
