@@ -13,7 +13,7 @@
 * Pochix1103(@Pochix1103)
 
 ## Sponsor
-### Server provided
+### 📣 Server provided
 * らまっこ(@llamakko_cafe)様
 
 ## Ranking
@@ -59,3 +59,19 @@
 | 38th | `saichan` | 200 pt |
 | 39th | `shogo` | 100 pt |
 | 40th | `boom` | 100 pt |
+
+---
+
+## 🚀 Deploy / Run
+この環境は **Docker Compose** により起動できます。
+
+### 起動方法
+```sh
+docker compose up -d --build
+```
+
+### 停止方法
+```sh
+docker compose down
+```
+必要に応じて、 `docker-compose.yml` を編集して下さい。
