@@ -1,0 +1,512 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>About | E4syCTF</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="icon" type="image/png" href="E4syCTF-logo.ico">
+
+<style>
+  :root {
+    /* --- ダークモードの配色 --- */
+    --bg: #0b0f14;
+    --card: #0f1720;
+    --text: #e6eef6;
+    --muted: #9aa6b2;
+    --accent1: #6EE7B7;
+    --accent2: #60A5FA;
+    --glass: rgba(255, 255, 255, 0.03);
+    --border-color: rgba(255, 255, 255, 0.03);
+    --shadow-color: rgba(2, 6, 23, 0.6);
+    --hero-gradient: linear-gradient(135deg, rgba(96, 165, 250, 0.06), rgba(110, 231, 183, 0.04));
+    --card-gradient: linear-gradient(180deg, rgba(255, 255, 255, 0.012), rgba(255, 255, 255, 0.008));
+    --btn-text: #041025;
+    --mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, "Roboto Mono", monospace;
+    --ui: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    --radius: 14px;
+  }
+
+  /* --- ライトモードの配色 --- */
+  body.light-mode {
+    --bg: #f0f4f8;
+    --card: #ffffff;
+    --text: #1e293b;
+    --muted: #64748b;
+    --accent1: #10b981;
+    --accent2: #3b82f6;
+    --glass: rgba(0, 0, 0, 0.03);
+    --border-color: rgba(0, 0, 0, 0.08);
+    --shadow-color: rgba(100, 116, 139, 0.2);
+    --hero-gradient: linear-gradient(135deg, rgba(96, 165, 250, 0.1), rgba(110, 231, 183, 0.1));
+    --card-gradient: transparent;
+    --btn-text: #ffffff;
+  }
+
+  html {
+    height: 100%;
+  }
+
+  body {
+    margin: 0;
+    /* --- FlexboxでSticky Footerを実現 --- */
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    /* --- --- */
+    background: radial-gradient(1200px 600px at 10% 10%, rgba(96, 165, 250, 0.06), transparent 6%),
+                radial-gradient(900px 500px at 90% 90%, rgba(110, 231, 183, 0.04), transparent 6%),
+                var(--bg);
+    color: var(--text);
+    font-family: var(--ui);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    line-height: 1.45;
+    padding: 48px;
+    box-sizing: border-box;
+    transition: background-color 0.3s, color 0.3s;
+  }
+
+  .container {
+    max-width: 1100px;
+    margin: 0 auto;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 28px;
+    flex-grow: 1; /* --- この要素が縦に伸びるように指定 --- */
+  }
+
+  header.site-hero {
+    background: var(--hero-gradient);
+    border-radius: var(--radius);
+    padding: 28px;
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    box-shadow: 0 6px 20px var(--shadow-color), inset 0 1px 0 var(--glass);
+    border: 1px solid var(--border-color);
+    position: relative;
+  }
+
+  #theme-toggle {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: var(--glass);
+    border: 1px solid var(--border-color);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--muted);
+    transition: background-color 0.2s, color 0.2s;
+  }
+  #theme-toggle:hover {
+    background: var(--border-color);
+    color: var(--text);
+  }
+  #theme-toggle svg {
+    width: 20px;
+    height: 20px;
+  }
+  .sun-icon { display: none; }
+  .moon-icon { display: block; }
+  body.light-mode .sun-icon { display: block; }
+  body.light-mode .moon-icon { display: none; }
+
+  .logo-image {
+    width: 96px;
+    height: 96px;
+    border-radius: 14px;
+    object-fit: cover;
+    box-shadow: 0 8px 24px rgba(6, 12, 30, 0.5);
+  }
+  
+  body.light-mode .logo-image {
+    box-shadow: 0 8px 24px var(--shadow-color);
+  }
+
+  .hero-content h1 {
+    margin: 0;
+    font-size: 28px;
+    letter-spacing: -0.6px;
+  }
+  .hero-content p {
+    margin: 6px 0 0 0;
+    color: var(--muted);
+  }
+
+  .meta {
+    margin-left: auto;
+    text-align: right;
+    padding-right: 40px; 
+  }
+  .pill {
+    display: inline-block;
+    background: var(--glass);
+    border-radius: 999px;
+    padding: 8px 12px;
+    font-weight: 600;
+    color: var(--accent1);
+    border: 1px solid var(--border-color);
+    font-size: 13px;
+  }
+  
+  main.grid {
+    display: grid;
+    grid-template-columns: 1fr 380px;
+    gap: 24px;
+    align-items: start;
+  }
+
+  .card {
+    background: var(--card, var(--card-gradient));
+    border-radius: 12px;
+    padding: 24px;
+    box-shadow: 0 6px 18px var(--shadow-color);
+    border: 1px solid var(--border-color);
+  }
+
+  h2 {
+    margin: 0 0 12px 0;
+    font-size: 18px
+  }
+  p.lead {
+    color: var(--muted);
+    margin-top: 0
+  }
+
+  .features {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+  .feature {
+    background: var(--glass);
+    padding: 12px;
+    border-radius: 10px;
+    border: 1px solid var(--border-color);
+  }
+  .feature h3 {
+    margin: 0;
+    font-size: 14px
+  }
+  .feature p {
+    margin: 6px 0 0 0;
+    color: var(--muted);
+    font-size: 13px
+  }
+
+  .timeline {
+    margin-top: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .timeline .item {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+  }
+  .timeline .dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--accent2);
+    margin-top: 6px;
+    box-shadow: 0 4px 12px rgba(96, 165, 250, 0.12);
+  }
+  .timeline .content p {
+    margin: 0;
+    color: var(--muted);
+    font-size: 14px
+  }
+
+  .rules ul {
+    margin: 10px 0 0 18px;
+    color: var(--muted)
+  }
+  .cta {
+    display: flex;
+    gap: 10px;
+    margin-top: 16px;
+  }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 14px;
+    border-radius: 10px;
+    background: linear-gradient(90deg, var(--accent2), var(--accent1));
+    color: var(--btn-text);
+    font-weight: 700;
+    text-decoration: none;
+    box-shadow: 0 8px 24px rgba(6, 12, 30, 0.45);
+    border: none;
+    cursor: pointer;
+  }
+  
+  body.light-mode .btn {
+      box-shadow: 0 8px 24px var(--shadow-color);
+  }
+  
+  .btn.ghost {
+    background: transparent;
+    color: var(--accent1);
+    border: 1px solid var(--border-color);
+    box-shadow: none;
+    font-weight: 600;
+  }
+
+  .aside .box {
+    margin-bottom: 12px;
+  }
+  .small {
+    font-size: 13px;
+    color: var(--muted)
+  }
+  .score-list {
+    background: linear-gradient(90deg, rgba(96, 165, 250, 0.02), rgba(110, 231, 183, 0.02));
+    padding: 12px;
+    border-radius: 10px;
+    border: 1px solid var(--border-color);
+  }
+  .score-list ol {
+    margin: 0;
+    padding-left: 18px;
+    color: var(--muted)
+  }
+  .score-list li {
+    margin: 6px 0
+  }
+
+  footer {
+    margin-top: 28px;
+    color: var(--muted);
+    text-align: center;
+    font-size: 13px;
+    width: 100%;
+  }
+
+  a {
+  color: var(--accent1);
+  text-decoration: underline;
+  transition: color 0.2s;
+  }
+
+  a:hover {
+  color: var(--accent2);
+  }
+
+  a:visited {
+  color: var(--accent1);
+  }
+
+  @media (max-width: 980px) {
+    body { padding: 24px; }
+    main.grid { grid-template-columns: 1fr; }
+    .features { grid-template-columns: 1fr; }
+    header.site-hero { flex-direction: column; text-align: center; gap: 16px; }
+    .logo-image { width: 80px; height: 80px; }
+    .meta { padding-right: 0; margin: 0; text-align: center; }
+    #theme-toggle { top: 12px; right: 12px; }
+  }
+
+  @media (max-width: 640px) {
+    body { padding: 16px; }
+    .container { gap: 20px; }
+    header.site-hero { padding: 20px; }
+    .card { padding: 20px; }
+  }
+
+  @media (max-width: 480px) {
+    body { padding: 12px; }
+    .hero-content h1 { font-size: 20px; }
+    .logo-image { width: 64px; height: 64px; }
+  }
+</style>
+</head>
+
+<body>
+  <div class="container">
+    <header class="site-hero">
+      <img src="E4syCTF-logo.png" alt="E4syCTF Logo" class="logo-image">
+      <div class="hero-content">
+        <h1>E4syCTF - 初心者向けオンラインCTF</h1>
+        <p class="lead">セキュリティの最初の一歩を楽しく学べる、個人主催のオンラインCTFイベントです。</p>
+      </div>
+      <div class="meta">
+        <div class="pill">オンライン開催</div>
+        <div style="margin-top:8px;color:var(--muted);font-size:13px">開催：2025年10月13日 12:00 ～ 10月14日 12:00</div>
+      </div>
+      
+      <button id="theme-toggle" title="テーマを切り替え">
+        <svg class="sun-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+        <svg class="moon-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+      </button>
+
+    </header>
+
+    <main class="grid">
+      <section class="card">
+        <h2>E4syCTFとは？</h2>
+        <p class="lead">
+          E4syCTFは、セキュリティ初心者から中級者を対象にしたオンラインのCTF（Capture The Flag）イベントです。
+          実践的な問題を通じて脆弱性の理解や攻撃・防御の基礎を身につけることを目的にしています。
+        </p>
+
+        <div class="features" style="margin-top:14px">
+          <div class="feature">
+            <h3>初心者フレンドリー</h3>
+            <p>問題は導線が親切に設計されており、初めての方でも取り組みやすい構成です。</p>
+          </div>
+          <div class="feature">
+            <h3>オンライン開催</h3>
+            <p>全国どこからでも参加可能。Discordで運営・Q&Aを行います。</p>
+          </div>
+          <div class="feature">
+            <h3>多ジャンル</h3>
+            <p>Web / Pwn / Crypto / Revなど、幅広いカテゴリの問題を用意予定です。</p>
+          </div>
+          <div class="feature">
+            <h3>学習重視</h3>
+            <p>作問者によるWriteupや解説も後日公開。復習して知識を定着させられます。</p>
+          </div>
+        </div>
+
+        <div style="margin-top:18px">
+          <h2>タイムライン</h2>
+          <div class="timeline">
+            <div class="item">
+              <div class="dot"></div>
+              <div class="content"><strong>登録受付</strong>
+                <p class="small">参加登録はWebサイトから。先着で定員に達した場合は締切になります。</p>
+              </div>
+            </div>
+            <div class="item">
+              <div class="dot" style="background:var(--accent1)"></div>
+              <div class="content"><strong>本戦</strong>
+                <p class="small">2025/10/13 12:00 〜 2025/10/14 12:00（オンライン）</p>
+              </div>
+            </div>
+            <div class="item">
+              <div class="dot"></div>
+              <div class="content"><strong>Writeup公開</strong>
+                <p class="small">問題の解説とWriteupをイベント後に公開します。</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div style="margin-top:18px">
+          <h2>主催</h2>
+          <p class="small">主催：ぽち（@Pochix1103） — 個人運営のイベントです。運営に関する問い合わせはDiscordの運営チャンネルへお願いします。</p>
+        </div>
+        <div style="margin-top:18px">
+          <h2>スポンサー様</h2>
+          <p class="small">サーバー提供: <a href="https://x.com/llamakko_cafe">らまっこ（@llamakko_cafe）</a>様 - さくらのクラウドよりCrypto, Pwnable用のサーバーを提供いただきました。</p>
+        </div>
+        <div style="margin-top:18px">
+          <h2>基本ルール（抜粋）</h2>
+          <div class="rules small">
+            <ul>
+              <li>他者・他チームへの攻撃や妨害行為は禁止です。</li>
+              <li>問題の不正コピー・漏洩は禁止です。</li>
+              <li>サーバー負荷をかける行為は控えてください。</li>
+              <li>詳細なルールは参加登録後に配布します。</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="cta">
+          <a class="btn" href="#" id="registerBtn" role="button">参加登録</a>
+          <a class="btn ghost" href="#" id="discordBtn" role="button">Discordへ参加</a>
+	        <!-- <a class="btn ghost" href="login.html" id="loginBtn" role="button">Login</a> -->
+        </div>
+      </section>
+
+      <aside class="aside">
+        <div class="card box">
+          <h2>現在の状況</h2>
+          <p class="small">定員状況や最新のお知らせはDiscordと公式サイトで随時更新します。</p>
+        </div>
+
+        <div class="card box score-list">
+          <h3 style="margin:0 0 8px 0">スコアボード</h3>
+            <ol id="scoreboard-list">
+              <p>未実装です。</p>
+            </ol>
+        </div>
+
+        <div class="card box">
+          <h3 style="margin:0 0 8px 0">よくある質問</h3>
+          <p class="small"><strong>Q:</strong> 初心者だけど参加できますか？<br><strong>A:</strong> はい。初心者向け問題も用意しています。</p>
+        </div>
+
+        <div class="card box">
+          <h3 style="margin:0 0 8px 0">連絡先</h3>
+          <p class="small">運営Discord: <em>#ask-to-admin</em> チャンネル / Twitter: @Pochix1103</p>
+        </div>
+      </aside>
+    </main>
+  </div>
+
+  <footer>
+    © 2025 E4syCTF — ぽち(Pochix1103)
+  </footer>
+
+<script>
+  const registerBtn = document.getElementById('registerBtn');
+  if (registerBtn) {
+    registerBtn.disabled = true;
+    registerBtn.style.opacity = "0.5";
+    registerBtn.style.cursor = "not-allowed";
+    registerBtn.title = "現在は登録できません";
+    registerBtn.addEventListener('click', function(e) {
+      e.preventDefault();
+      alert('現在は参加登録を受け付けていません。');
+    });
+  }
+
+  const discordBtn = document.getElementById('discordBtn');
+  if (discordBtn) {
+    discordBtn.addEventListener('click', function(e) {
+      e.preventDefault();
+      window.open("https://discord.gg/EAWv3BRkUY", "_blank");
+    });
+  }
+  const loginBtn= document.getElementById('loginBtn');
+  if (discordBtn) {
+    discordBtn.addEventListener('click', function(e) {
+      e.preventDefault();
+      window.open("login.html", "_blank");
+    });
+  }
+  
+  // --- モード切替のJavaScript ---
+  const themeToggle = document.getElementById('theme-toggle');
+  
+  const currentTheme = localStorage.getItem('theme');
+  if (currentTheme === 'light') {
+      document.body.classList.add('light-mode');
+  }
+
+  themeToggle.addEventListener('click', () => {
+    document.body.classList.toggle('light-mode');
+    
+    let theme = 'dark';
+    if (document.body.classList.contains('light-mode')) {
+        theme = 'light';
+    }
+    localStorage.setItem('theme', theme);
+  });
+  
+</script>
+
+</body>
+</html>
