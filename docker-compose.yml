@@ -1,0 +1,121 @@
+# docker-compose.yml for E4syCTF-2025
+# - ポートは重複しないように割り振り済み（必要なら調整してください）
+version: "3.8"
+
+services:
+
+  # --- crypto ---
+  ecc:
+    build:
+      context: ./crypto/ECC/src
+    restart: always
+    ports:
+      - "7777:7777"
+    networks:
+      - default
+
+  lacc:
+    build:
+      context: ./crypto/LACC/src
+    restart: always
+    ports:
+      - "13337:13337"
+    networks:
+      - default
+
+  vuln_prime:
+    build:
+      context: ./crypto/Vuln_Prime/src
+    restart: always
+    ports:
+      - "9900:9900"
+    networks:
+      - default
+
+  # --- pwnable ---
+  gomoku:
+    build:
+      context: ./pwnable/gomoku/src
+    restart: always
+    ports:
+      - "14000:14000"
+    networks:
+      - default
+
+  item_shop_1:
+    build:
+      context: ./pwnable/item_shop_1/src
+    restart: always
+    ports:
+      - "9001:9001"
+    networks:
+      - default
+
+  item_shop_2:
+    build:
+      context: ./pwnable/item_shop_2/src
+    restart: always
+    ports:
+      - "9002:9002"
+    networks:
+      - default
+
+  secure_note:
+    build:
+      context: ./pwnable/secure_note/src
+    restart: always
+    ports:
+      - "15001:15001"
+    networks:
+      - default
+
+  welcome_pwn:
+    build:
+      context: ./pwnable/welcome_pwn/src
+    restart: always
+    ports:
+      - "12345:5000"
+    networks:
+      - default
+
+  # --- web ---
+  web_flaggetapi:
+    build:
+      context: ./web/FlagGetAPI/src
+    restart: always
+    ports:
+      - "8001:8000"
+    networks:
+      - default
+
+  web_python_of_cow:
+    build:
+      context: ./web/Python_of_Cow/src
+    restart: always
+    ports:
+      - "8002:8000"
+    networks:
+      - default
+
+  web_special:
+    build:
+      context: "./web/Special_E4syCTF's_Web/src"
+    restart: always
+    ports:
+      - "8003:8000"
+    networks:
+      - default
+
+  web_unauth_client:
+    build:
+      context: ./web/Unauthorized_Client/src
+    restart: always
+    ports:
+      - "8004:8000"
+    networks:
+      - default
+
+networks:
+  default:
+  internal:
+    internal: true
